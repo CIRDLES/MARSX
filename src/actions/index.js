@@ -22,7 +22,7 @@ export function signInAction({ username, password }, history) {
       console.log(resJSON)
       let usercode = resJSON.elements[0].elements[1].elements[0].elements[0].text
 
-      dispatch({ type: AUTHENTICATED});
+      dispatch({ type: AUTHENTICATED });
       localStorage.setItem('usercode', usercode);
       history.push('/upload');
     } catch(error) {

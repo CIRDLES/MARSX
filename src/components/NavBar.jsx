@@ -11,11 +11,10 @@ class Header extends Component {
     //Return different links depending on the authentication status
     if (this.props.authenticated) {
       return(
-        <div >
+        <div>
           <Nav>
             <NavItem eventKey={1} href="details">Details</NavItem>
             <NavItem eventKey={2} href="upload">Upload</NavItem>
-            <NavItem eventKey={2} href="issues">Issues</NavItem>
           </Nav>
           <Nav pullRight>
             <NavItem eventKey={3} href="signout">Sign Out</NavItem>
@@ -32,7 +31,7 @@ class Header extends Component {
 
   render() {
     return (
-      <Navbar fixedTop inverse className="nav">
+      <Navbar inverse className="nav">
         <Navbar.Header>
           <Navbar.Brand >
             <a href="/">MARS</a>
