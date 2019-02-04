@@ -1,81 +1,71 @@
 import React, { Component } from 'react';
-import * as Papa from 'papaparse';
-import _ from 'lodash';
+//import { onChangeSourceFileAction, onChangeMapFileAction } from '../actions'
+//import { connect } from 'react-redux'
+import Panel from '../Panel/panel'
+import './css/Upload.css'
+
+
 
 class Upload extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      jsonList: [],
-      mergedCSV: []
-    }
+   
 
-    this.updateJsonList=this.updateJsonList.bind(this)
-    this.handleFile=this.handleFile.bind(this)
-    this.handleUpload=this.handleUpload.bind(this)
-    this.updateMergedCSV = this.updateMergedCSV.bind(this)
+    this.onChangeSourceFiles = this.onChangeSourceFiles.bind(this)
+    this.onChangeSourceMap = this.onChangeSourceMap.bind(this)
+    this.handleProceed = this.handleProceed.bind(this)
   }
 
-  updateJsonList(results){
-    this.setState({jsonList: [...this.state.jsonList, results.data]})
+  onChangeSourceMap(e){
+    this.props.onChangeMapFileAction(e.target.files[0])
   }
 
-  updateMergedCSV(){
-    console.log(this.state)
-  }
 
-  handleFile(e){
+
+  onChangeSourceFiles(e){
     let fileList = e.target.files
-    console.log('filelist: ', fileList)
-    for( var i = 0; i < fileList.length; i++){
-      Papa.parse(fileList[i], {
-        header: true,
-        complete: this.updateJsonList
-        
-      })
+    let sourceFiles = []
+    for (var i = 0; i < fileList.length; i++){
+      sourceFiles[i] = fileList[i]
     }
+    this.props.onChangeSourceFileAction(sourceFiles)
+
   }
 
-  handleUpload(e){
-    console.log('state: ',this.state.jsonList)
-    console.log('file 1: ', this.state.jsonList[0][0])
-    console.log('file 2: ', this.state.jsonList[1][0])
-    console.log('lodash merge: ', _.merge(this.state.jsonList[0][0],this.state.jsonList[1][0]))
-    let minLengthIndex = this.state.jsonList[0].length
-    let merge = []
-    for (var i = 0; i < this.state.jsonList.length; i++){
-      if (this.state.jsonList[i].length < minLengthIndex){
-        minLengthIndex = this.state.jsonList[i].length
+  handleProceed(e){
+    e.preventDefault()
+   
+    this.props.onProceed(this.props.mapFile, this.props.sourceFiles)
+  }
+ 
+  render(){
+    console.log(this.props)
+    const displayProceed = () =>{
+      if (this.props.mapFile && this.props.sourceFiles){
+        console.log(this.props.mapFile, this.props.sourceFiles)
+        return(
+        <button onClick={this.handleProceed}>Proceed to Upload</button>
+        )
       }
     }
-    console.log(minLengthIndex)
-    for (var i = 0; i < minLengthIndex; i++){
-      merge[i] = _.merge(this.state.jsonList[0][i],this.state.jsonList[1][i])
-    }
-    console.log('merge', merge)
 
-  }
-
-
-  render(){
-    return(
-      <div>
-        <h1>Upload</h1>
-
-        <form>
-          <div>
-            <label>Select File</label>
-            <input type="file" name="file" multiple onChange={(e)=>this.handleFile(e)}/>
-          </div>
-          <button type="button" onClick={(e)=>this.handleUpload(e)}>Upload</button>
-
-        </form>
+    return (
+      
+      <div className='upload'>
+        <Panel name='Mapping Setup'>
+          <div className='text'>Select your Mapping File</div>
+          <input type='file' name='file' accept='.js' onChange={(e)=>this.onChangeSourceMap(e)}/>
+          <div className='text'>Select your Sample Files</div>
+          <input type='file' name='file' accept='.csv' multiple onChange={(e)=>this.onChangeSourceFiles(e)}/>
+          {displayProceed()}
+        </Panel>
+        
       </div>
+      
     )
-    
   }
-
 }
+
 export default Upload
 
 //File chooser -> can upload multiple same csv

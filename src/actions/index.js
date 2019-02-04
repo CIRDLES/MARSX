@@ -1,10 +1,14 @@
 import axios from 'axios';
 import convert from 'xml-js'
-
+//import Worker from '../components/helpers/sandbox.worker'
 //Constants
+const sourceFormat = '.csv'
 export const AUTHENTICATED = 'authenticated_user';
 export const UNAUTHENTICATED = 'unauthenticated_user';
 export const AUTHENTICATION_ERROR = 'authentication_error';
+export const CHANGE_SOURCE_FILE = 'change_source_file';
+export const CHANGE_MAP_FILE = 'change_map_file';
+export const INITIALIZE_SAMPLES = 'initialize_samples';
 
 const URL = 'https://sesardev.geosamples.org/webservices/credentials_service_v2.php';
 
@@ -22,7 +26,10 @@ export function signInAction({ username, password }, history) {
       console.log(resJSON)
       let usercode = resJSON.elements[0].elements[1].elements[0].elements[0].text
 
-      dispatch({ type: AUTHENTICATED });
+      dispatch({ 
+        type: AUTHENTICATED,
+        usercode: usercode,
+        password: password});
       localStorage.setItem('usercode', usercode);
       history.push('/upload');
     } catch(error) {
@@ -41,3 +48,32 @@ export function signOutAction(){
     type: UNAUTHENTICATED
   }
 }
+
+export function onChangeSourceFileAction(sourceFiles){
+  return {
+    type: CHANGE_SOURCE_FILE,
+    sourceFiles: sourceFiles
+  }
+}
+
+export function onChangeMapFileAction(mapFile){
+  return {
+    type: CHANGE_MAP_FILE,
+    mapFile: mapFile
+  }
+}
+
+export function initializeSamples(sampleArray){
+  return {
+    type: INITIALIZE_SAMPLES,
+    sampleArray: sampleArray
+  }
+}
+
+/*export function onProceed(mapFile, sourceFiles){
+  const worker = Worker();
+  worker.postMessage({type: 'map', mapFile, sourceFormat , sourceFiles})
+  worker.onmessage = e => {
+
+  }
+}*/
