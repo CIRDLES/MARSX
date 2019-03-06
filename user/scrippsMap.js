@@ -1,7 +1,7 @@
 // ======================
 // Scripps Helpers
 // ======================
-
+//TODO: add meta data about the file type and requirements
 //creates a date from a string in the form YYYYDDMM
 const scrippsDate = (scrippsValue) => {
     const y = scrippsValue.substr(0,4)
