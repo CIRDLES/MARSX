@@ -8,7 +8,7 @@ import {csvParse} from 'd3-dsv'
 onmessage = (e) => {
   
   if(e.data.type == 'map') {
-    console.log(hello)
+    console.log(e.data)
     // This callback chain contains all the logic of the webworker
     readSourceMap(e.data.sourceMap, (err, map, logic) => {
 

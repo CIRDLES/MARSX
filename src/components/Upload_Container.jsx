@@ -10,9 +10,9 @@ function mapDistatchToProps(dispatch){
    
 
     return {
-        onProceed: (mapFile, sourceFiles) => {
+        onProceed: (sourceMap, sourceFiles) => {
             let worker = Worker()
-            worker.postMessage({type: 'map', mapFile, sourceFormat, sourceFiles})
+            worker.postMessage({type: 'map', sourceMap, sourceFormat, sourceFiles})
             worker.onMessage = (e) => {
                 dispatch(actions.initializeSamples(e.data))
             }
