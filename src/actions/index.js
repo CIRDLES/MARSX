@@ -1,5 +1,6 @@
 import axios from 'axios';
-import convert from 'xml-js'
+import { convert } as xmljsConvert from 'xml-js'
+
 //import Worker from '../components/helpers/sandbox.worker'
 //Constants
 const sourceFormat = '.csv'
@@ -67,6 +68,23 @@ export function initializeSamples(sampleArray){
   return {
     type: INITIALIZE_SAMPLES,
     sampleArray: sampleArray
+  }
+}
+
+export function upload(username, password, usercode, samples) {
+  return dispatch => {
+    dispatch(uploadRequest())
+    let xmlSample = toXML(samples, usercode)
+    let form = new FormData()
+    let request = {method: 'POST', body: form}
+    form.append('username', username)
+    form.append('password', password)
+    form.append('content', new XMLSerializer().serializeToString(xmlSample))
+    fetch('https://sesardev.geosamples.org/webservices/upload.php', request)
+      .then(handleErrors)
+      .then(response => response.text())
+      .then(responseText => convert.xmlDataToJSON(responseText, {explicitArray: false}))
+      .then(responseJson => dispatch(uploadSuccess(responseJson.results.sample)))
   }
 }
 
