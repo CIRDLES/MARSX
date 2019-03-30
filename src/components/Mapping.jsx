@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-//import { onChangeSourceFileAction, onChangeMapFileAction } from '../actions'
-//import { connect } from 'react-redux'
 import Panel from '../Panel/panel'
 import './css/Upload.css'
 
 
 
-class Upload extends Component {
+class Mapping extends Component {
   constructor(props){
     super(props);
-   
 
+    this.handleOnUpload = this.handleOnUpload.bind(this)
     this.onChangeSourceFiles = this.onChangeSourceFiles.bind(this)
     this.onChangeSourceMap = this.onChangeSourceMap.bind(this)
     this.handleProceed = this.handleProceed.bind(this)
+  }
+
+  handleOnUpload(e){
+    e.preventDefault()
+    console.log(this.props.user)
+    this.props.onUpload(this.props.mapFile, this.props.uploadSamples, this.props.user)
   }
 
   onChangeSourceMap(e){
@@ -34,7 +38,6 @@ class Upload extends Component {
 
   handleProceed(e){
     e.preventDefault()
-   
     this.props.onProceed(this.props.mapFile, this.props.sourceFiles)
   }
  
@@ -44,13 +47,16 @@ class Upload extends Component {
       if (this.props.mapFile && this.props.sourceFiles){
         console.log(this.props.mapFile, this.props.sourceFiles)
         return(
-        <button onClick={this.handleProceed}>Proceed to Upload</button>
+          <div>
+            <button onClick={this.handleProceed}>Proceed to Upload</button>
+            <button onClick={this.handleOnUpload}>Upload</button>
+          </div>
+
         )
       }
     }
 
     return (
-      
       <div className='upload'>
         <Panel name='Mapping Setup'>
           <div className='text'>Select your Mapping File</div>
@@ -59,14 +65,12 @@ class Upload extends Component {
           <input type='file' name='file' accept='.csv' multiple onChange={(e)=>this.onChangeSourceFiles(e)}/>
           {displayProceed()}
         </Panel>
-        
       </div>
-      
     )
   }
 }
 
-export default Upload
+export default Mapping
 
 //File chooser -> can upload multiple same csv
 //Upload mapping file

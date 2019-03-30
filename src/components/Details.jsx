@@ -30,7 +30,8 @@ class Details extends Component {
 
     this.handleClickNext = this.handleClickNext.bind(this)
     this.handleClickPrev = this.handleClickPrev.bind(this)
-      //this.changeLimit = this.changeLimit.bind(this)*/
+    //TODO: add change limit
+    //this.changeLimit = this.changeLimit.bind(this)*/
     this.sendRequest = this.sendRequest.bind(this)
     this.handleOpenProfile = this.handleOpenProfile.bind(this)
   }
@@ -84,7 +85,6 @@ class Details extends Component {
         .then( response => {
 
           //Grabbing each piece of information needed and updating state as needed.
-
           const sampleName = response.data.sample.name
           const latitudes = response.data.sample.latitude
           const longitudes = response.data.sample.longitude
@@ -96,7 +96,6 @@ class Details extends Component {
               longitude: longitudes,
               elevation: elevations }]})
 
-          console.log(length, this.state.rowData.length)
           if(this.state.rowData.length === length){
             //Allow the information to be rendered.
             this.setState({loading: false})
@@ -107,7 +106,7 @@ class Details extends Component {
     //Throw an error if the GET request don't come through
     .catch(error => {
       console.log(error)
-        if (error.response.status == 404){
+        if (error.response.status === 404){
         console.log('error 404')
         var pageBeforeError = this.state.page_no -1
         this.setState({page_no: (pageBeforeError)})
