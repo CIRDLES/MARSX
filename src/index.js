@@ -20,21 +20,27 @@ import Header from './components/NavBar';
 //import 'bootstrap/dist/css/bootstrap.css';
 
 //Actions and Reducers
-import { AUTHENTICATED } from './actions';
 import reducers from './reducers';
+import { loadState, saveState } from './localstorage';
 
+const persistedState = loadState();
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
-const store = createStoreWithMiddleware(reducers,
+const store = createStoreWithMiddleware(reducers, persistedState,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 //Check cookies to see if user is already authenticated
 //and login user is already authenticated
-const usercode = localStorage.getItem('usercode');
-console.log('Cookies usercode:', usercode)
+
+store.subscribe(() => {
+  saveState({
+    auth: store.getState().auth
+  });
+});
+/*console.log('Cookies usercode:', usercode)
 
 if(usercode) {
   store.dispatch({ type: AUTHENTICATED });
-}
+}*/
 
 
 

@@ -1,5 +1,4 @@
 import {CHANGE_SOURCE_FILE, CHANGE_MAP_FILE} from '../actions'
-import { fromJS } from 'immutable';
 
 export default function(state={}, action){
     switch (action.type){
