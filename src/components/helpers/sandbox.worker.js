@@ -8,21 +8,23 @@ import {csvParse} from 'd3-dsv'
 onmessage = (e) => {
   
   if(e.data.type == 'map') {
-    console.log(e.data)
+    console.log("e data ", e.data)
     // This callback chain contains all the logic of the webworker
     readSourceMap(e.data.sourceMap, (err, map, logic) => {
 
       // once the sourceMap is read, get the source data
       readSourceData(e.data.sourceFormat, e.data.sourceFiles, map, logic, (err, samples) => {
+        console.log("postmessage: ", samples)
         postMessage(samples)
-        //close()
+        close()
       })
     })
   } else if (e.data.type == 'combine') {
-    readSourceMap(e.data.sourceMap[0], (err, map, logic, combinations) => {
-      let combinedSamples = combineFields(combinations, map, e.data.uploadSamples)
-      postMessage(combinedSamples)
-      //close()
+        console.log("e data ", e.data)
+      readSourceMap(e.data.sourceMap, (err, map, logic, combinations) => {
+        let combinedSamples = combineFields(combinations, map, e.data.uploadSamples)
+        postMessage(combinedSamples)
+      close()
     })
   }
 }
@@ -128,12 +130,10 @@ const loadCSV = (files, map, logic, callback) => {
               for(let j=0; j<map[key].length; j++) {
                 if(d[map[key][j]]) {
                   samples[i].push(createField(key, d[map[key][j]], map[key][j], logic))
-                  console.log(samples)
                   delete d[map[key][i]]
                 }
               }
             } else if(d[map[key]]){
-              console.log(d[map[key]])
               samples[i].push(createField(key, d[map[key]], map[key], logic))
               delete d[map[key]]
             }
