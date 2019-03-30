@@ -1,8 +1,5 @@
 
-import {Map, List, fromJS} from 'immutable'
 import {UPLOAD_REQUEST, UPLOAD_SUCCESS, UPLOAD_FAILURE, INITIALIZE_SAMPLES} from '../actions'
-const INITIAL_STATE = Map({'samples': List([]), 'loading': false})
-
 
 export default function reducer(state = {}, action) {
   switch(action.type) {

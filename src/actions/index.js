@@ -2,7 +2,6 @@ import axios from 'axios';
 import * as jsCON from 'xml-js'
 import toXML from './toXML'
 import FormData from 'form-data'
-//import fetch from 'isomorphic-fetch'
 import convert from 'xml-to-json-promise'
 
 //Constants
@@ -107,24 +106,26 @@ export function upload(username, password, usercode, samples) {
   console.log("usercode: " , usercode)
   console.log("samples: ", samples)
   return async dispatch => {
-    dispatch(uploadRequest())
-    let xmlSample = toXML(samples, usercode)
-    let formData = new FormData()
-    formData.append('username', username)
-    formData.append('password', password)
-    formData.append('content', new XMLSerializer().serializeToString(xmlSample))
-    const res = await axios.post('https://sesardev.geosamples.org/webservices/upload.php', formData)
-    console.log("response: ", res)
-    convert.xmlDataToJSON(res.data, {explicitArray: false}).then(json => {
-      dispatch(uploadSuccess(json.results.sample))
-    });
+    try {
+      dispatch(uploadRequest())
+
+      let xmlSample = toXML(samples, usercode)
+      let formData = new FormData()
+      formData.append('username', username)
+      formData.append('password', password)
+      formData.append('content', new XMLSerializer().serializeToString(xmlSample))
+
+      const res = await axios.post('https://sesardev.geosamples.org/webservices/upload.php', formData)
+      console.log("response: ", res)
+
+      convert.xmlDataToJSON(res.data, {explicitArray: false}).then(json => {
+        dispatch(uploadSuccess(json.results.sample))
+      });
+  } catch(error){
+    console.log(error)
+    dispatch({type: UPLOAD_FAILURE,error});
+    }
   }
 }
 
-function handleErrors(response) {
-  if (!response.ok) throw Error(response.status)
-
-  console.log(response.json())
-  return response
-}
 
