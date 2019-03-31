@@ -16,7 +16,6 @@ class Mapping extends Component {
 
   handleOnUpload(e){
     e.preventDefault()
-    console.log(this.props.user)
     this.props.onUpload(this.props.mapFile, this.props.uploadSamples, this.props.user)
   }
 
@@ -42,10 +41,8 @@ class Mapping extends Component {
   }
  
   render(){
-    console.log(this.props)
     const displayProceed = () =>{
       if (this.props.mapFile && this.props.sourceFiles){
-        console.log(this.props.mapFile, this.props.sourceFiles)
         return(
           <div>
             <button onClick={this.handleProceed}>Proceed to Upload</button>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {signOutAction} from '../actions'
 import './css/SignOut.css'
 
+//TODO: Fix CSS
 class SignOut extends Component {
 
   signOut(){
