@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class MappingTable extends Component{
+class Upload extends Component{
     constructor(props){
         super(props);
     
@@ -20,4 +20,4 @@ class MappingTable extends Component{
         )
     }
 }
-export default MappingTable
+export default Upload

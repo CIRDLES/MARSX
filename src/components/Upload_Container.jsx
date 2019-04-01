@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import Worker from './helpers/sandbox.worker'
 import * as actions from '../actions/index'
-import MappingTable from './MappingTable'
+import Upload from './Upload'
 
 function mapStateToProps(state) {
     return { 
@@ -24,5 +24,5 @@ function mapDistatchToProps(dispatch){
     }
 }
 
-const MappingTableContainer = connect(mapStateToProps, mapDistatchToProps)(MappingTable)
-export default(MappingTableContainer)
+const UploadContainer = connect(mapStateToProps, mapDistatchToProps)(Upload)
+export default(UploadContainer)

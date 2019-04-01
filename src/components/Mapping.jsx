@@ -8,22 +8,14 @@ class Mapping extends Component {
   constructor(props){
     super(props);
 
-    this.handleOnUpload = this.handleOnUpload.bind(this)
     this.onChangeSourceFiles = this.onChangeSourceFiles.bind(this)
     this.onChangeSourceMap = this.onChangeSourceMap.bind(this)
     this.handleProceed = this.handleProceed.bind(this)
   }
 
-  handleOnUpload(e){
-    e.preventDefault()
-    this.props.onUpload(this.props.mapFile, this.props.uploadSamples, this.props.user)
-  }
-
   onChangeSourceMap(e){
     this.props.onChangeMapFileAction(e.target.files[0])
   }
-
-
 
   onChangeSourceFiles(e){
     let fileList = e.target.files
@@ -47,7 +39,6 @@ class Mapping extends Component {
         return(
           <div>
             <button onClick={this.handleProceed}>Proceed to Upload</button>
-            <button onClick={this.handleOnUpload}>Upload</button>
           </div>
 
         )

@@ -10,8 +10,7 @@ function mapStateToProps(state) {
     return { 
         mapFile: state.mapping.mapFile, 
         sourceFiles: state.mapping.sourceFiles, 
-        user: state.auth, 
-        uploadSamples: state.upload.samples
+        user: state.auth
     };
 }
 
@@ -28,15 +27,7 @@ function mapDistatchToProps(dispatch){
 
         onChangeMapFileAction: (file) => {dispatch(actions.onChangeMapFileAction(file))},
 
-        onChangeSourceFileAction: (files) => {dispatch(actions.onChangeSourceFileAction(files))},
-
-        onUpload: (sourceMap, uploadSamples, user) => {
-            let worker = Worker()
-            worker.postMessage({type:'combine', sourceMap, uploadSamples})
-            worker.onmessage = (e) => {
-                dispatch(actions.upload(user.username, user.password, user.usercode, e.data))
-        }
-      }
+        onChangeSourceFileAction: (files) => {dispatch(actions.onChangeSourceFileAction(files))}
     }
 }
 
