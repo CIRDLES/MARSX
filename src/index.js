@@ -11,6 +11,7 @@ import requireAuth from './components/hoc/require_auth';
 import noRequireAuth from './components/hoc/no_require_auth';
 import SignIn from './components/SignIn';
 import Mapping_Container from './components/Mapping_Container';
+import MappintTable_Container from './components/MappingTable_Container';
 import HomePage from './components/HomePage';
 import SignOut from './components/SignOut';
 import Details from './components/Details'
@@ -43,6 +44,7 @@ ReactDOM.render(
        <Route path="/details" component={requireAuth(Details)} />
        <Route path="/signout" component={requireAuth(SignOut)} />
        <Route path="/mapping" component={requireAuth(Mapping_Container)} />
+       <Route path="/upload" component={requireAuth(MappintTable_Container)}/>
      </div>
    </Router>
  </Provider>,

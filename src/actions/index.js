@@ -127,5 +127,3 @@ export function upload(username, password, usercode, samples) {
     }
   }
 }
-
-

@@ -37,6 +37,7 @@ class Mapping extends Component {
 
   handleProceed(e){
     e.preventDefault()
+    this.props.history.push("upload")
     this.props.onProceed(this.props.mapFile, this.props.sourceFiles)
   }
  
