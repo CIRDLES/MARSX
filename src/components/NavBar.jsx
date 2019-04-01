@@ -6,7 +6,6 @@ import './css/NavBar.css';
 
 class Header extends Component {
   navbarLinks() {
-    console.log('NavBar props:',this.props)
 
     //Return different links depending on the authentication status
     if (this.props.authenticated) {
@@ -42,48 +41,6 @@ class Header extends Component {
     );
   }
 }
-  /*navbarLinks() {
-    console.log('NavBar props:',this.props)
-
-    //Return different links depending on the authentication status
-    if (this.props.authenticated) {
-      return [
-
-
-            <Link to="/details" className="links">Details</Link>
-
-        ,
-
-            <Link to="/upload"  className="links">Upload</Link>
-
-        ,
-
-            <Link to="/signout" className="links">Sign out</Link>
-
-
-
-      ];
-    }
-    return [
-      <li key="signin"><Link to="/signin" className="links">Sign in</Link></li>,
-    ];
-  }
-
-  render() {
-    return (
-      <nav className="navbar navbar-inverse navbar-fixed-top">
-        <div className="container">
-
-              <Link to="/" className="brand">MarsX</Link>
-
-
-
-          {this.navbarLinks()}
-        </div>
-      </nav>
-    );
-  }
-}*/
 
 function mapStateToProps(state) {
   return {

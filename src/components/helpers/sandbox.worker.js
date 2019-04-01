@@ -8,19 +8,19 @@ import {csvParse} from 'd3-dsv'
 onmessage = (e) => {
   
   if(e.data.type == 'map') {
-    console.log("e data ", e.data)
+    
     // This callback chain contains all the logic of the webworker
     readSourceMap(e.data.sourceMap, (err, map, logic) => {
 
       // once the sourceMap is read, get the source data
       readSourceData(e.data.sourceFormat, e.data.sourceFiles, map, logic, (err, samples) => {
-        console.log("postmessage: ", samples)
+        
         postMessage(samples)
         close()
       })
     })
   } else if (e.data.type == 'combine') {
-        console.log("e data ", e.data)
+        
       readSourceMap(e.data.sourceMap, (err, map, logic, combinations) => {
         let combinedSamples = combineFields(combinations, map, e.data.uploadSamples)
         postMessage(combinedSamples)
@@ -52,7 +52,6 @@ const readSourceData = (format, files, map, logic, callback) => {
 // combine fields where necessary. This occurs only after the user clicks the upload button
 // to upload their samples to SESAR
 const combineFields = (combinations, map, uploadSamples) => {
-  console.log("Upload Samples ", uploadSamples )
   for(let i=0; i<uploadSamples.length; i++) {
     for(let key in map) {
       if(Array.isArray(map[key])) {
@@ -62,7 +61,6 @@ const combineFields = (combinations, map, uploadSamples) => {
         //console.log("INVERSE: " + inverse)
         if(filter.length>1) {
           let reduction = filter.reduce((acc, field) => acc.concat([field.value]), [])
-          console.log(filter)
           if(combinations[key]) {
             let newField = {key, value: combinations[key](reduction)}
             inverse.push(newField)
@@ -125,7 +123,6 @@ const loadCSV = (files, map, logic, callback) => {
         csvParse(e.target.result, (d, i) => {
           if(!samples[i]) {samples[i] = []}
           for(let key in map) {
-            //console.log("Key: " + key)
             if(Array.isArray(map[key])) {
               for(let j=0; j<map[key].length; j++) {
                 if(d[map[key][j]]) {

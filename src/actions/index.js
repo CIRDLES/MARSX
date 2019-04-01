@@ -5,7 +5,6 @@ import FormData from 'form-data'
 import convert from 'xml-to-json-promise'
 
 //Constants
-//const sourceFormat = '.csv'
 export const AUTHENTICATED = 'authenticated_user';
 export const UNAUTHENTICATED = 'unauthenticated_user';
 export const AUTHENTICATION_ERROR = 'authentication_error';
@@ -29,15 +28,15 @@ export function signInAction({ username, password }, history) {
       //Formating api response in order to get usercode
       let options = {ignoreComment: true, alwaysChildren: true};
       let resJSON = await jsCON.xml2js(res.data, options )
-      console.log(resJSON)
       let usercode = resJSON.elements[0].elements[1].elements[0].elements[0].text
 
       dispatch({ 
         type: AUTHENTICATED,
         username: username,
         usercode: usercode,
-        password: password});
-      localStorage.setItem('usercode', usercode);
+        password: password
+      });
+
       history.push('/mapping');
     } catch(error) {
       console.log(error)
@@ -85,7 +84,6 @@ export function uploadRequest() {
 
 // All samples uploaded correctly
 export function uploadSuccess(results) {
-  console.log(results)
   return {
     type: UPLOAD_SUCCESS,
     results
@@ -101,23 +99,25 @@ export function uploadFailure(error) {
 }
 
 export function upload(username, password, usercode, samples) {
-  console.log("username: " , username)
-  console.log("password: " , password)
-  console.log("usercode: " , usercode)
-  console.log("samples: ", samples)
   return async dispatch => {
     try {
+
+      //Start upload request
       dispatch(uploadRequest())
 
+      //convert samples to xml scheme
       let xmlSample = toXML(samples, usercode)
+
+      //create form data to use in the POST request
       let formData = new FormData()
       formData.append('username', username)
       formData.append('password', password)
       formData.append('content', new XMLSerializer().serializeToString(xmlSample))
 
+      //POST request
       const res = await axios.post('https://sesardev.geosamples.org/webservices/upload.php', formData)
-      console.log("response: ", res)
 
+      //convert the response data from xml to JSON
       convert.xmlDataToJSON(res.data, {explicitArray: false}).then(json => {
         dispatch(uploadSuccess(json.results.sample))
       });
