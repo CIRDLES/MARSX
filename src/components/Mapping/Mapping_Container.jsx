@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import Worker from './helpers/sandbox.worker'
-import * as actions from '../actions/index'
+import Worker from '../helpers/sandbox.worker'
+import * as actions from '../../actions/index'
 import Mapping from './Mapping'
 
 const sourceFormat = '.csv'

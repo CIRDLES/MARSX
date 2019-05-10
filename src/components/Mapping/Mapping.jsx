@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import Panel from '../Panel/panel'
-import './css/Upload.css'
+import './Mapping.css'
 
 
 
@@ -29,8 +29,8 @@ class Mapping extends Component {
 
   handleProceed(e){
     e.preventDefault()
-    this.props.history.push("upload")
     this.props.onProceed(this.props.mapFile, this.props.sourceFiles)
+    this.props.history.push("upload")
   }
  
   render(){

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import Worker from './helpers/sandbox.worker'
-import * as actions from '../actions/index'
+import Worker from '../helpers/sandbox.worker'
+import * as actions from '../../actions/index'
 import Upload from './Upload'
 
 function mapStateToProps(state) {
@@ -8,7 +8,8 @@ function mapStateToProps(state) {
         mapFile: state.mapping.mapFile, 
         sourceFiles: state.mapping.sourceFiles, 
         user: state.auth, 
-        uploadSamples: state.upload.samples
+        uploadSamples: state.upload.samples,
+        loading: state.upload.loading
     };
 }
 

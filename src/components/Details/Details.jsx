@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './css/details.css'
-import Loader from 'react-loader-spinner';
-import { Button, ButtonToolbar, ButtonGroup } from 'react-bootstrap'
+import './Details.css'
+import { connect } from 'react-redux';
 
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 
-class Details extends Component {
+class Detail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      // Column deffinitions for ag-grid
       columnDefs: [
         {headerName: "IGSN", field: "IGSN" ,checkboxSelection: true},
         {headerName: "Sample Name", field: "sampleName"},
@@ -24,8 +24,7 @@ class Details extends Component {
       page_no: 1,
       limit: 20,
       sortingFlag: 0,
-      sortSampleNamesFlag: false,
-      usercode: localStorage.getItem('usercode')
+      sortSampleNamesFlag: false
     }
 
     this.handleClickNext = this.handleClickNext.bind(this)
@@ -53,11 +52,8 @@ class Details extends Component {
   };
   handleOpenProfile(e){
     const length = this.gridApi.getSelectedNodes().length
-    console.log(length)
     for (var i = 0; i < length; i++){
-      console.log(i)
       let igsn = this.gridApi.getSelectedNodes()[i].data.IGSN
-      console.log(igsn)
       window.open(`https://sesardev.geosamples.org/sample/igsn/${igsn}`)
     }
   }
@@ -69,7 +65,7 @@ class Details extends Component {
 
     //API Request: Get IGSNs
     axios
-    .get(`https://sesardev.geosamples.org/samples/user_code/${this.state.usercode}`,{
+    .get(`https://sesardev.geosamples.org/samples/user_code/${this.props.usercode}`,{
       params: {
         limit: this.state.limit,
         page_no: this.state.page_no + num
@@ -119,12 +115,13 @@ class Details extends Component {
     if(this.state.loading === true) {
       return (
         <div className="outerDiv">
-          <Loader
-            type="Puff"
-            color="#00BFFF"
-            height="200"
-            width="200"/>
+          <div className="d-flex justify-content-center">
+            <div className="spinner-grow text-primary" style={{width: '6rem', height: '6rem'}} role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          </div>
         </div>
+       
       )
     } else {
       return (
@@ -137,30 +134,26 @@ class Details extends Component {
               margin: 'auto'
             }}
           >
-            <ButtonToolbar className="openProfile">
-              <Button
-                bsStyle="primary"
-                bsSize="large"
-                onClick={this.handleOpenProfile}>
-                Open Sample Page
-              </Button>
-            </ButtonToolbar>
+            <button 
+              type="button" 
+              className="btn btn-primary btn-lg" 
+              onClick={this.handleOpenProfile}>
+              Open Sample Page
+            </button>
+
 
             <AgGridReact
               onGridReady={ params => this.gridApi = params.api }
-              rowSelection="multiple"
+              rowSelection="single"
               enableSorting={true}
               enableFilter={true}
               columnDefs={this.state.columnDefs}
               rowData={this.state.rowData}>
             </AgGridReact>
-
-            <ButtonToolbar>
-              <ButtonGroup>
-                <Button onClick={this.handleClickPrev}>Previous</Button>
-                <Button onClick={this.handleClickNext}>  Next  </Button>
-              </ButtonGroup>
-            </ButtonToolbar>
+            <div className="btn-group" role="group" aria-label="details group">
+              <button type="button" className="btn btn-primary" onClick={this.handleClickPrev}>Previous</button>
+              <button type="button" className="btn btn-primary" onClick={this.handleClickNext}>Next</button>
+            </div>
 
             <div>
               Page {this.state.page_no}
@@ -173,4 +166,11 @@ class Details extends Component {
   }
 }
 
+function mapStateToProps(state){
+  return{
+    usercode: state.auth.usercode
+  };
+}
+
+const Details = connect(mapStateToProps)(Detail)
 export default Details;

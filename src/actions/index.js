@@ -108,6 +108,7 @@ export function upload(username, password, usercode, samples) {
       //convert samples to xml scheme
       let xmlSample = toXML(samples, usercode)
 
+      //TODO: Validate each sample
       //create form data to use in the POST request
       let formData = new FormData()
       formData.append('username', username)
