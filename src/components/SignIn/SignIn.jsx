@@ -15,6 +15,8 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
 </div>)
 
 class SignIn extends Component {
+
+  //Send login info to redux actions
   submit = (values) => {
     console.log(values)
     this.props.signInAction(values, this.props.history);

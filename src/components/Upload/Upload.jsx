@@ -8,9 +8,7 @@ class Upload extends Component{
     constructor(props){
         super(props);
         this.state={
-            samples: this.props.uploadSamples,
             rowData: [],
-            keys: [],
             columnDefs: []
         }
      
@@ -19,13 +17,14 @@ class Upload extends Component{
 
     componentWillReceiveProps(nextProps){
         if(nextProps.uploadSamples !== this.props.uploadSamples | nextProps.loading !== this.props.loading){
-            this.setState({samples: nextProps.uploadSamples});
-            var keys = [];
-            var rowData = [];
+            var keys = []
+            var rowData = []
+            var columnDefs = []
+
+            //find all keys, if a mapped key doesn't exist used the original key
             for (let i = 0; i < nextProps.uploadSamples.length; i++){
                 for (let j=0; j < nextProps.uploadSamples[i].length; j++){
                    let sampleData = nextProps.uploadSamples[i]
-                   console.log("======Test=====", nextProps.uploadSamples[i])
                    keys = [...new Set(sampleData.map(data => 
                     {
                         if (data.key !== undefined){
@@ -35,15 +34,17 @@ class Upload extends Component{
                         }
                     }
                     ))]
-                   //console.log(keys)
                 }
             }
-            this.setState({keys: keys})
+
+            //get rowData for ag-grid component
             for (let i = 0; i < nextProps.uploadSamples.length; i++){
-     
                 var value = {}
                 for(let j=0; j < keys.length; j++){
                     var keyVal = keys[j]
+
+                    /*return a value based on a key, 
+                        if a mapped key doesnt exist use the original key and original value*/
                     var data = nextProps.uploadSamples[i].filter(x => 
                         {
                             if(x.key !== undefined){
@@ -64,31 +65,24 @@ class Upload extends Component{
                 }
                
                 rowData = [...rowData, value]
-                //console.log(rowData)
-                this.setState({rowData: rowData})
+                this.setState({rowData})
             }
 
-            var columnDefs = []
+            //create columnDefs based on the keys
             for (let i = 0; i < keys.length; i++){
                 columnDefs.push({
                     headerName: keys[i], field: keys[i]
                 })
             }
             this.setState({columnDefs})
-            //console.log(columnDefs)
+       
 
         }
-    }
-    
-    getData(){
-
     }
 
     handleOnUpload(e){
         e.preventDefault()
-        //this.props.loading = true
         this.props.onUpload(this.props.mapFile, this.props.uploadSamples, this.props.user)
-       
     }
 
 
@@ -105,9 +99,9 @@ class Upload extends Component{
               margin: 'auto'
             }}>
                 <AgGridReact
-                     rowSelection="single"
-                     enableSorting={true}
-                     enableFilter={true}
+                    rowSelection="single"
+                    enableSorting={true}
+                    enableFilter={true}
                     columnDefs={this.state.columnDefs}
                     rowData={this.state.rowData}>
                     <AgGridColumn headerName="Sample"></AgGridColumn>
@@ -135,10 +129,3 @@ class Upload extends Component{
 }
 
 export default Upload
-
-/*
-   <div>
-                
-                 <button onClick={this.handleOnUpload}>Upload</button>
-            </div>
-*/
