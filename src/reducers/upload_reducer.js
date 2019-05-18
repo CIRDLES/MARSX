@@ -4,7 +4,8 @@ export default function reducer(state = {}, action) {
   switch(action.type) {
     case INITIALIZE_SAMPLES:
         console.log("<==== Samples Ready ====>")
-        return {...state, samples: action.sampleArray}
+       
+        return {...state, samples: action.sampleArray, loading: false}
     case UPLOAD_REQUEST:
         console.log("<==== Upload Requested ====>")
       return {...state, loading: true}
@@ -19,6 +20,7 @@ export default function reducer(state = {}, action) {
       }
       //TODO: enable exporting to CSV after successful upload
       console.log("<==== Upload Succcessful ====>")
+      console.log("Samples: ", samples)
       return {...state, samples: samples, loading: false}
     case UPLOAD_FAILURE:
       console.log("<==== Upload Failure ====>")

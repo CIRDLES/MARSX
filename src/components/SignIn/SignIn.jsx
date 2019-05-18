@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import { Form ,Field, reduxForm } from 'redux-form/immutable';
-import { signInAction } from '../actions';
+import { signInAction } from '../../actions';
 import { connect } from 'react-redux'
-import './css/SignIn.css'
+import './SignIn.css'
 
 const renderField = ({ input, label, type, meta: { touched, error } }) => (
 <div>

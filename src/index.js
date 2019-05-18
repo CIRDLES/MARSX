@@ -1,4 +1,6 @@
-//Npm Packages
+//import 'bootstrap/dist/css/bootstrap.css';
+//import 'bootstrap/dist/css/bootstrap-theme.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import reduxThunk from 'redux-thunk';
@@ -7,14 +9,15 @@ import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 //Components
-import requireAuth from './components/hoc/require_auth';
-import noRequireAuth from './components/hoc/no_require_auth';
-import SignIn from './components/SignIn';
-import Mapping_Container from './components/Mapping_Container';
-import HomePage from './components/HomePage';
-import SignOut from './components/SignOut';
-import Details from './components/Details'
-import Header from './components/NavBar';
+import requireAuth from './components/higherOrderComponents/require_auth';
+import noRequireAuth from './components/higherOrderComponents/no_require_auth';
+import SignIn from './components/SignIn/SignIn';
+import Mapping_Container from './components/Mapping/Mapping_Container';
+import Upload_Container from './components/Upload/Upload_Container';
+import HomePage from './components/Homepage/HomePage';
+import SignOut from './components/SignOut/SignOut';
+import Details from './components/Details/Details'
+import Header from './components/NavBar/NavBar';
 import { loadState, saveState } from './localstorage';
 
 //Reducer
@@ -43,6 +46,7 @@ ReactDOM.render(
        <Route path="/details" component={requireAuth(Details)} />
        <Route path="/signout" component={requireAuth(SignOut)} />
        <Route path="/mapping" component={requireAuth(Mapping_Container)} />
+       <Route path="/upload" component={requireAuth(Upload_Container)}/>
      </div>
    </Router>
  </Provider>,
