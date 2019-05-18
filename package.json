@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/icons": "^3.0.2",
     "ag-grid-community": "^19.1.4",
     "ag-grid-react": "^19.1.2",
     "ajv": "^6.10.0",

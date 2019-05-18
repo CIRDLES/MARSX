@@ -124,6 +124,7 @@ class Detail extends Component {
        
       )
     } else {
+      console.log(this.state)
       return (
         <div>
           <div
