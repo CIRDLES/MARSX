@@ -20,7 +20,6 @@ export default function reducer(state = {}, action) {
       }
       //TODO: enable exporting to CSV after successful upload
       console.log("<==== Upload Succcessful ====>")
-      console.log("Samples: ", samples)
       return {...state, samples: samples, loading: false}
     case UPLOAD_FAILURE:
       console.log("<==== Upload Failure ====>")
